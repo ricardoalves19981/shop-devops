@@ -1,0 +1,46 @@
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: shop-postgres
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: shopdb
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./Shop.Api
+
+    container_name: shop-api
+
+    ports:
+      - "5000:8080"
+
+    depends_on:
+      - postgres
+
+    environment:
+      ConnectionStrings__DefaultConnection: Host=localhost;Port=5432;Database=shopdb;Username=postgres;Password=12345
+
+  ui:
+    build:
+      context: ./shop-ui
+
+    container_name: shop-ui
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
