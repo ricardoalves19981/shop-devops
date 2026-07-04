@@ -47,11 +47,7 @@ jobs:
          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Tag Image
-        run: |
-         docker tag shop-api:latest \
-         ${{ secrets.DOCKER_USERNAME }}/shop-api:latest
+        run: docker tag shop-api:latest ${{ secrets.DOCKER_USERNAME }}/shop-api:latest
 
       - name: Push Image
-        run: |
-         docker push \
-         ${{ secrets.DOCKER_USERNAME }}/shop-api:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/shop-api:latest
