@@ -25,12 +25,17 @@ services:
   api:
     build:
       context: ./Shop.Api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
 
     container_name: shop-api
 
+    working_dir: /src
+
+    volumes:
+      - ./Shop.Api:/src
+
     environment:
-      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
       ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=shopdb;Username=admin;Password=12345
 
@@ -40,18 +45,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
-  ui:
-    build:
-      context: ./shop-ui
-
-    container_name: shop-ui
-
-    ports:
-      - "3000:80"
-
-    depends_on:
-      - api
 
 volumes:
   postgres_data:

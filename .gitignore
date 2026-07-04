@@ -1,8 +1,9 @@
-.env
-
 bin/
 obj/
-
+.vs/
+.vscode/
+.env
+*.user
+*.suo
 node_modules/
 
-.vscode/
