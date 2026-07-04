@@ -1,0 +1,35 @@
+name: Shop CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore Packages
+        run: dotnet restore Shop.Api/Shop.Api.csproj
+
+      - name: Build Project
+        run: dotnet build Shop.Api/Shop.Api.csproj --configuration Release --no-restore
+
+      - name: Success
+        run: echo "Build completed successfully!"
